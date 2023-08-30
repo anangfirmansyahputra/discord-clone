@@ -13,6 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '../ui/input';
 import { ChannelType } from '@prisma/client';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { useEffect } from 'react';
 
 const formSchema = z.object({
 	name: z
@@ -27,16 +28,17 @@ const formSchema = z.object({
 });
 
 const CreateChannelModal = () => {
-	const { isOpen, onClose, onOpen, type } = useModal();
+	const { isOpen, onClose, onOpen, type, data } = useModal();
 	const router = useRouter();
 	const params = useParams();
 
 	const isModalOpen = isOpen && type === 'createChannel';
+	const { channelType } = data;
 
 	const form = useForm({
 		defaultValues: {
 			name: '',
-			type: ChannelType.TEXT,
+			type: channelType || ChannelType.TEXT,
 		},
 		resolver: zodResolver(formSchema),
 	});
@@ -65,6 +67,14 @@ const CreateChannelModal = () => {
 		form.reset();
 		onClose();
 	};
+
+	useEffect(() => {
+		if (channelType) {
+			form.setValue('type', channelType);
+		} else {
+			form.setValue('type', ChannelType.TEXT);
+		}
+	}, [channelType, form]);
 
 	return (
 		<Dialog
