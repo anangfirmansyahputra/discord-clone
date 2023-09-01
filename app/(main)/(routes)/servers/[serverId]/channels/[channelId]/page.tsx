@@ -1,5 +1,6 @@
 import ChatHeader from '@/components/chat/chat-header';
 import ChatInput from '@/components/chat/chat-input';
+import ChatMessages from '@/components/chat/chat-messages';
 import { currentProfile } from '@/lib/current-profile';
 import { db } from '@/lib/db';
 import { redirectToSignIn } from '@clerk/nextjs';
@@ -39,7 +40,7 @@ export default async function Page({ params }: Props) {
 				type={'channel'}
 				serverId={channel.serverId}
 			/>
-			<div className='flex-1'>Future Message</div>
+			<ChatMessages />
 			<ChatInput
 				name={channel.name}
 				type='channel'
