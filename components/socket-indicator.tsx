@@ -8,7 +8,7 @@ import React from 'react';
 const SocketIndicator = () => {
 	const { isConnected } = useSocket();
 
-	if (isConnected) {
+	if (!isConnected) {
 		return (
 			<Badge
 				variant='outline'
